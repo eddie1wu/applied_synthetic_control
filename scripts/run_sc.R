@@ -149,6 +149,7 @@ all_id <- unique(df_sc$country_id)
 out <- c()
 
 # Placebo studies
+if (FALSE) {
 for (i in all_id) {
   treated <- i
   control <- setdiff(all_id, i)
@@ -175,7 +176,7 @@ for (i in all_id) {
   out <- cbind(out, gaps)
 }
 saveRDS(out, file = paste0("../output/", file_prefix, "_placebo.rds"))
-
+}
 
 # Reload placebo data
 out <- readRDS(paste0("../output/", file_prefix, "_placebo.rds"))

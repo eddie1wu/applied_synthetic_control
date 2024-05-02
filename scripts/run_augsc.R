@@ -3,6 +3,7 @@
 
 library(augsynth)
 library(tidyverse)
+library(zoo)
 
 # Load data
 df <- read.csv(file.path(data_path, "clean_data.csv"))
@@ -59,35 +60,48 @@ formula <- as.formula(paste0(dep_var,
                              dep_var,
                              " + UNEMPRATE + final_consumption + debt_ratio + confidence",
                              " + networth + HHSAV + LAB_UR6 + cpi_ref2015 + stock_ref2015 + short_ir"))
-covsyn <- augsynth(formula,
-                   country_id,
-                   yearqtr,
-                   df_asc,
-                   progfunc = "Ridge",
-                   scm = T)
-# summary(covsyn)
-png(paste0("../output/", file_prefix, "_augsc.png"),
-    width = 800, height = 600)
-temp <- plot(covsyn)
-print(temp)
-dev.off()
+
+get_augsc_results(formula, df_asc,
+                  weights_file_name = "../output/gdp_augsc_weights.png",
+                  path_breaks = seq(60, 160, by = 20),
+                  path_limits = c(60, 160), 
+                  path_y_label = "Real GDP Per Capita",
+                  path_file_name = "../output/gdp_augsc_path.png",
+                  txt_file_name = "../output/gdp_augsc.txt",
+                  gaps_file_name = "../output/gdp_augsc_gaps.png")
+  
 
 
-# Residual
-covsyn <- augsynth(formula,
-                   country_id,
-                   yearqtr,
-                   df_asc,
-                   progfunc = "Ridge",
-                   scm = T,
-                   lambda = asyn$lambda,
-                   residualize = T)
-# summary(covsyn)
-png(paste0("../output/", file_prefix, "_augsc_resid.png"),
-    width = 800, height = 600)
-temp <- plot(covsyn)
-print(temp)
-dev.off()
+#   
+# covsyn <- augsynth(formula,
+#                    country_id,
+#                    yearqtr,
+#                    df_asc,
+#                    progfunc = "Ridge",
+#                    scm = T)
+# # summary(covsyn)
+# png(paste0("../output/", file_prefix, "_augsc.png"),
+#     width = 800, height = 600)
+# temp <- plot(covsyn)
+# print(temp)
+# dev.off()
+# 
+# 
+# # Residual
+# covsyn <- augsynth(formula,
+#                    country_id,
+#                    yearqtr,
+#                    df_asc,
+#                    progfunc = "Ridge",
+#                    scm = T,
+#                    lambda = asyn$lambda,
+#                    residualize = T)
+# # summary(covsyn)
+# png(paste0("../output/", file_prefix, "_augsc_resid.png"),
+#     width = 800, height = 600)
+# temp <- plot(covsyn)
+# print(temp)
+# dev.off()
 
 
 

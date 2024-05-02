@@ -4,7 +4,7 @@ rm(list=ls())
 
 ### Set up ---------------------------------------------------------------------
 clean_data <- FALSE
-dep_var <- "RGDP_INDEX"  # Either RGDP_INDEX or RHHGDI_INDEX
+dep_var <- "RHHGDI_INDEX"  # Either RGDP_INDEX or RHHGDI_INDEX
 
 
 ### Define paths ---------------------------------------------------------------
